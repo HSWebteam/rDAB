@@ -1,0 +1,11 @@
+Package: rDAB
+Type: Package
+Title: UU-DAB data converter
+Version: 0.1.0
+Author: D. Asscheman
+Maintainer: D. Asscheman <D.Asscheman@uu.nl>
+Description: With this package you can make several convertions and calculations on 
+the data export of the UU-DAB-app.uu.nl
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
