@@ -2,21 +2,17 @@
 # L0_I1_Q1_RT Per vraag de response tijd
 #
 ###############################################################################
-library(progress)
 
 calculate_response_time <- function(mydata) {
     rowNewData = 0
     participants<-unique(mydata$participant_id)
     tasks<-unique(mydata$task_id)
-    count = length(participants) * length(tasks)
-    pb <- progress_bar$new(total = count)
-    pb$tick(0)
+
     newData <- data.frame(matrix(ncol = 0, nrow = 0))
 
     for (participant in participants) {
         for (task in tasks) {
             data = NULL
-            pb$tick()
             # select participant and task
             data = subset(mydata, task_id == task)
             data = subset(data, participant_id == participant)

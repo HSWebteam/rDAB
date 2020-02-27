@@ -17,22 +17,18 @@
 # L*_I*_Q*_RT
 # meanprop
 ###############################################################################
-library(progress)
 
 transpose <- function(mydata) {
     participants<-unique(mydata$participant_id)
     tasks<-unique(mydata$task_id)
-    count = length(participants) * length(tasks)
-    pb <- progress_bar$new(total = count)
-    pb$tick(0)
+
     rowNewData = 0
     newData <- data.frame(matrix(ncol = 0, nrow = 0))
-
 
     for (participant in participants) {
         for (task in tasks) {
             data = NULL
-            pb$tick()
+
             # select participant and task
             data = subset(mydata, task_id == task)
             data = subset(data, participant_id == participant)

@@ -4,14 +4,10 @@
 #             (aantal goede antwoorden / door aantal antwoorden)> dus hier (L1_I1_Q1)/1
 # meanprop
 ###############################################################################
-library(progress)
 
 calculate_proportion <- function(mydata) {
     participants<-unique(mydata$participant_id)
     tasks<-unique(mydata$task_id)
-    count = length(participants) * length(tasks)
-    pb <- progress_bar$new(total = count)
-    pb$tick(0)
     rowNewData = 0
     newData <- data.frame(matrix(ncol = 0, nrow = 0))
 
@@ -19,7 +15,6 @@ calculate_proportion <- function(mydata) {
     for (participant in participants) {
         for (task in tasks) {
             data = NULL
-            pb$tick()
             # select participant and task
             data = subset(mydata, task_id == task)
             data = subset(data, participant_id == participant)
