@@ -5,7 +5,7 @@
 # meanprop
 ###############################################################################
 
-getAverage <- function(mydata){
+getAveragePractice <- function(mydata){
     rowNewData = 1
     participants<-unique(mydata$participant_id)
     tasks<-unique(mydata$task_id)
@@ -19,7 +19,7 @@ getAverage <- function(mydata){
             task_type = unique(data['taak'])
 
             # select all but level 0
-            data = subset(data, level!=0)
+            data = subset(data, level==0)
             if(length(data) == 0 ) {
                 # when length is zero, no results found for this participant and task
                 next
@@ -34,7 +34,7 @@ getAverage <- function(mydata){
 
             newData[rowNewData, 'task_id'] = task
             newData[rowNewData, 'participant_id'] = participant
-            newData[rowNewData, 'meanprop'] = data["Mean"]
+            newData[rowNewData, 'meanprop_practice'] = data["Mean"]
             rowNewData = rowNewData+1
         }
     }
