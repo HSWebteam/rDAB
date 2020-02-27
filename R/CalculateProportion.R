@@ -1,11 +1,9 @@
 ###############################################################################
-# 
-# L1_I1_prop 	Per item zou een proportie correct score berekend moeten worden 
+#
+# L1_I1_prop 	Per item zou een proportie correct score berekend moeten worden
 #             (aantal goede antwoorden / door aantal antwoorden)> dus hier (L1_I1_Q1)/1
 # meanprop
 ###############################################################################
-
-install.packages("progress", quiet = TRUE, repos='http://cran.us.r-project.org') # required for 'progress_bar' function
 library(progress)
 
 calculate_proportion <- function(mydata) {
@@ -16,8 +14,8 @@ calculate_proportion <- function(mydata) {
     pb$tick(0)
     rowNewData = 0
     newData <- data.frame(matrix(ncol = 0, nrow = 0))
-  
-  
+
+
     for (participant in participants) {
         for (task in tasks) {
             data = NULL
@@ -26,20 +24,20 @@ calculate_proportion <- function(mydata) {
             data = subset(mydata, task_id == task)
             data = subset(data, participant_id == participant)
             data = subset(data, level!=0)
-            
+
             if(nrow(data) == 0 ) {
               # when length is zero, no results found for this participant and task
               next
             }
-            
+
             # calculate mean per level/item
             scores<-tapply(as.numeric(data$score),  list(data$level, data$item), sum, na.rm=TRUE)
             questions<-tapply(data$question_number,  list(data$level, data$item), max)
             levels<-unique(data$level)
             items<-unique(data$item)
-            
+
             rowNewData = rowNewData+1
-            
+
             for (level in levels) {
                 for (item in items) {
                     propColumnName = paste('L', level, '_I', item, "_prop", sep = "")

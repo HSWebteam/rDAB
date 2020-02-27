@@ -11,13 +11,12 @@
 # language
 # theme
 # matrix_size
-# date 
+# date
 # L*_I*_Q*
 # L*_I*_prop
-# L*_I*_Q*_RT 
+# L*_I*_Q*_RT
 # meanprop
 ###############################################################################
-install.packages("progress", quiet = TRUE, repos='http://cran.us.r-project.org') # required for 'progress_bar' function
 library(progress)
 
 transpose <- function(mydata) {
@@ -28,8 +27,8 @@ transpose <- function(mydata) {
     pb$tick(0)
     rowNewData = 0
     newData <- data.frame(matrix(ncol = 0, nrow = 0))
-    
-    
+
+
     for (participant in participants) {
         for (task in tasks) {
             data = NULL
@@ -37,12 +36,12 @@ transpose <- function(mydata) {
             # select participant and task
             data = subset(mydata, task_id == task)
             data = subset(data, participant_id == participant)
- 
+
             if(nrow(data) == 0 ) {
                   # when length is zero, no results found for this participant and task
                   next
             }
-            
+
             rowNewData = rowNewData+1
             for (row in 1:nrow(data)) {
                 if(row == 1) {
@@ -65,7 +64,7 @@ transpose <- function(mydata) {
             }
         }
     }
-    
+
     return(newData[order(
         newData$task_id,
         newData$participant_id),])
