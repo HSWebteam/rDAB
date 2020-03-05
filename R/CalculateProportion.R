@@ -36,7 +36,8 @@ calculate_proportion <- function(mydata) {
             for (level in levels) {
                 for (item in items) {
                     propColumnName = paste('L', level, '_I', item, "_prop", sep = "")
-                    if(questions[level, item] == 0) {
+                    if(is.na(questions[level, item]) ||
+                       questions[level, item] == 0) {
                         newData[rowNewData, propColumnName] = NA
                         next
                     }
