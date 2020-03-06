@@ -1,11 +1,10 @@
 ###############################################################################
 #
-# L1_I1_prop 	Per item zou een proportie correct score berekend moeten worden
-#             (aantal goede antwoorden / door aantal antwoorden)> dus hier (L1_I1_Q1)/1
-# meanprop
+# geeft een score hoeveel oefenitems volledige goed zijn gegaan.
+# LET OP! bij het apen spel wordt het eerste item niet mee geteld.
 ###############################################################################
 
-getAveragePractice <- function(mydata){
+getPracticeScore <- function(mydata){
     rowNewData = 1
     participants<-unique(mydata$participant_id)
     tasks<-unique(mydata$task_id)
@@ -16,10 +15,14 @@ getAveragePractice <- function(mydata){
             # select participant and task
             data = subset(mydata, task_id == task)
             data = subset(data, participant_id == participant)
-            task_type = unique(data['taak'])
 
             # select all level 0
-            data = subset(data, level==0)
+            data = subset(data, level == 0)
+            # The first practice item of the monkey game should be skipped.
+            # This item is not a reversed item.
+            data = subset(data, (taak == 2 & item > 1) | taak == 1)
+
+            # filter(data, taak != "2" & item != "1")
             if(length(data) == 0 ) {
                 # when length is zero, no results found for this participant and task
                 next
@@ -27,14 +30,11 @@ getAveragePractice <- function(mydata){
 
             # calculate mean per level/item
             data<-tapply(as.numeric(data$score),  list(data$level, data$item), mean, na.rm=TRUE)
-
-            # mean over the level/item means
-            data<-apply(data, 1, mean)
-            data<-summary(data)
-
+            # select items which have a mean of 1, in other words, all items correct.
+            data = data[data == 1]
             newData[rowNewData, 'task_id'] = task
             newData[rowNewData, 'participant_id'] = participant
-            newData[rowNewData, 'meanprop_practice'] = data["Mean"]
+            newData[rowNewData, 'practice_items_correct'] = length(data)
             rowNewData = rowNewData+1
         }
     }
